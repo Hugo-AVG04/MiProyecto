@@ -105,7 +105,7 @@ article {
 
 .marcas-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+    grid-template-columns: repeat(3, 1fr); /* 4 columnas */
     gap: 15px; /* Espacio entre los contenedores */
     justify-content: center; /* Centrar el grid */
 }
