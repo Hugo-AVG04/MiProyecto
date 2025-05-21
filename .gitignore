@@ -1,3 +1,7 @@
 # Archivos o carpetas que no se subiran a github
 /Pictures
 /Marcas
+*.jpeg
+*.png
+*.jpg
+*.webp
