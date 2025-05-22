@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aston Martin</title>
+    <title>Galería de Coches Clásicos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../styles/styles.css">
-</head>
-<body>
     <header>
         <div class="Titulo">
             <h1>Autos del Reino Unido</h1>
@@ -18,11 +17,213 @@
         <nav class="nav">
             <ul class="nav-list">
                 <li><a href="../index.html">Inicio</a></li>
-                <li><a href="./Links/historiaAuto.html">Historia Automotriz en el Reino Unido</a></li>
-                <li><a href="./Links/circuitos.html">Circuitos de competicion</a></li>
-                <li><a href="./Links/galeria.html">Galeria de Imágenes</a></li>
+                <li><a href="../Links/historiaAuto.html">Historia Automotriz en el Reino Unido</a></li>
+                <li><a href="../Links/circuitos.html">Circuitos de competicion</a></li>
+                <li><a href="../Links/galeria.html">Galeria de Imágenes</a></li>
             </ul>
         </nav>
     </header>
+    <style>
+        :root {
+            --color-primario: beige;
+            --color-secundario: #64748b;
+            --color-accento: #dc2626;
+            --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .marca-seccion {
+            grid-column: 1 / -1;
+            border-bottom: 2px solid var(--color-accento);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            color: var(--color-primario);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .tarjeta-imagen {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: var(--transicion);
+        }
+
+        .tarjeta-imagen:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .imagen-galeria {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .pie-imagen {
+            padding: 1rem;
+            background-color: black;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .corazon-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
+            transition: var(--transicion);
+        }
+
+        .corazon-btn.liked {
+            color: var(--color-accento);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .comentarios-seccion {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .comentario-form {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Estilos adicionales para coincidir con tu diseño */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: rgb(57, 107, 45);
+            color: var(--color-primario);
+        }
+    </style>
+</head>
+<body>
+    <h2 class="marca-seccion">Aston Martin</h2>
+    <div class="galeria-grid">
+        <!-- Ejemplo de tarjeta -->
+        <div class="tarjeta-imagen">
+            <img src="../Links/ModelosAstonM/2025 Aston Martin Valhalla Hypercar.jpeg" alt="Aston Martin DB5" class="imagen-galeria">
+            <button class="corazon-btn" onclick="toggleLike(this)">
+                <i class="far fa-heart"></i>
+            </button>
+            <div class="pie-imagen">
+                <p>1963 DB5 - El auto de James Bond</p>
+            </div>
+        </div>
+        <!-- Repetir tarjetas según necesidad -->
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" onclick="closeLightbox()">
+        <img class="lightbox-imagen" src="" alt="">
+    </div>
+
+    <!-- Sección de comentarios -->
+    <div class="comentarios-seccion">
+        <form class="comentario-form" onsubmit="agregarComentario(event)">
+            <input type="text" placeholder="Tu nombre" required>
+            <textarea rows="3" placeholder="Escribe tu comentario..." required></textarea>
+            <button type="submit">Publicar comentario</button>
+        </form>
+        <div class="lista-comentarios">
+            <!-- Comentarios se agregarán aquí -->
+        </div>
+    </div>
+
+    <script>
+        // Lightbox
+        function mostrarLightbox(src) {
+            const lightbox = document.querySelector('.lightbox');
+            lightbox.querySelector('img').src = src;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.querySelector('.lightbox').classList.remove('active');
+        }
+
+        // Likes
+        function toggleLike(btn) {
+            btn.classList.toggle('liked');
+            btn.querySelector('i').classList.toggle('fa-solid');
+            btn.querySelector('i').classList.toggle('fa-regular');
+            // Aquí iría la lógica para guardar en el servidor
+        }
+
+        // Comentarios
+        function agregarComentario(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const comentario = {
+                nombre: formData.get('nombre'),
+                texto: formData.get('texto'),
+                fecha: new Date().toLocaleDateString()
+            };
+            // Aquí iría la lógica para guardar en el servidor
+            mostrarComentario(comentario);
+            event.target.reset();
+        }
+
+        function mostrarComentario(comentario) {
+            const contenedor = document.createElement('div');
+            contenedor.innerHTML = `
+                <div class="comentario">
+                    <strong>${comentario.nombre}</strong>
+                    <span>${comentario.fecha}</span>
+                    <p>${comentario.texto}</p>
+                </div>
+            `;
+            document.querySelector('.lista-comentarios').prepend(contenedor);
+        }
+
+        // Event listeners
+        document.querySelectorAll('.imagen-galeria').forEach(img => {
+            img.addEventListener('click', () => mostrarLightbox(img.src));
+        });
+    </script>
+    <footer>
+        <h4>Todos los derechos Reservados</h4>
+        <h4>Creado por Hugo Vivanco</h4>
+    </footer>
 </body>
 </html>
